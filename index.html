@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
 <title>بازی پرتاب آتشین </title>
 <style>
@@ -47,6 +45,7 @@ body { margin:0; overflow:hidden; background:#222; touch-action:none; font-famil
   box-shadow: 0 0 2px #0040FF, 0 0 5px #3399FF;
     transform: translateY(-50%) rotate(180deg) scale(1.1);
 }
+
 
 
     
@@ -245,228 +244,6 @@ canvas {
 
 
 
-
-<!-- ===== Tutorial Modal (place this just after <body> or before your canvas) ===== -->
-<style>
-/* tutorial modal styles */
-#tutorialModal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9997;
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-}
-#tutorialCard {
-  width: min(720px, 92vw);
-  background: linear-gradient(180deg,#1f1f2a,#2b2b35);
-  border-radius: 12px;
-  padding: 18px;
-  color: #fff;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-  text-align: center;
-}
-.tut-step { display: none; }
-.tut-step.active { display: block; }
-
-/* simple demo area (ball + finger animation) */
-.tut-demo {
-  margin: 12px auto;
-  width: 240px;
-  height: 160px;
-  position: relative;
-  background: linear-gradient(180deg,#222,#1b1b1b);
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.04);
-}
-.tut-ball {
-  position: absolute;
-  left: 50%;
-  bottom: 18px;
-  transform: translateX(-50%);
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #fff, #ddd 35%, #999 100%);
-  box-shadow: 0 4px 8px rgba(0,0,0,.6), 0 0 8px rgba(255,255,255,0.03) inset;
-}
-.tut-finger {
-  position: absolute;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;  /* 👈 حالا همیشه دایره */
-  background: rgba(255,255,255,0.9);
-  transform-origin: center;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.5);
-  opacity: .95;
-}
-
-
-/* animation for step 1: drag up */
-@keyframes finger-drag {
-  0% { left: 50%; bottom: 36px; transform: translate(-50%,0) scale(1); opacity:.95; }
-  50% { left: 30%; bottom: 80px; transform: translate(-50%,-4px) scale(.95); }
-  100% { left: 18%; bottom: 120px; transform: translate(-50%,-8px) scale(.9); opacity:.0; }
-}
-/* animation for step 2: release (finger tap and ball flies) */
-@keyframes finger-tap {
-  0% { left: 50%; bottom: 36px; transform: translate(-50%,0) scale(1); }
-  40% { transform: translate(-50%,-6px) scale(.95); }
-  100% { transform: translate(-50%,0) scale(1); opacity: .0; }
-}
-@keyframes ball-fly {
-  0% { transform: translateX(-50%) translateY(0) scale(1); opacity:1; }
-  100% { transform: translateX(-50%) translateY(-220px) scale(.6); opacity:0; }
-}
-
-/* controls */
-.tut-controls { margin-top:8px; display:flex; gap:8px; justify-content:center; align-items:center; }
-.tut-controls button {
-  padding:8px 12px; border-radius:8px; border:0; cursor:pointer;
-  background:#f39c12; color:#111; font-weight:600;
-}
-.tut-controls .secondary { background:#444; color:white; }
-
-/* checkbox line */
-.tut-bottom { margin-top:8px; font-size:13px; color:#ddd; display:flex; gap:10px; align-items:center; justify-content:center; }
-.tut-bottom input[type="checkbox"]{ transform:scale(1.1); margin-right:6px; }
-</style>
-
-<div id="tutorialModal" aria-hidden="true" style="display:none;">
-  <div id="tutorialCard" role="dialog" aria-modal="true" aria-label="راهنمای بازی">
-    <!-- step 1 -->
-    <div class="tut-step" id="tut-step-1">
-      <h3>نحوه پرتاب</h3>
-      <p style="margin:6px 0 10px;"> توپ را به سمت امتیازهای داخل صفحه هُل بده</p>
-      <div class="tut-demo" aria-hidden="true">
-        <div class="tut-ball" id="demoBall1"></div>
-        <div class="tut-finger" id="demoFinger1" style="left:50%; bottom:36px; animation: finger-drag 1500ms linear infinite;"></div>
-      </div>
-      <div class="tut-controls">
-        <button id="tut-next-1">بعدی ›</button>
-        <button class="secondary" id="tut-skip">پرش</button>
-      </div>
-    </div>
-
-    <!-- step 2 -->
-    <div class="tut-step" id="tut-step-2">
-      <h3>روش امتیاز گیری</h3>
-      <p style="margin:6px 0 10px;">سعی کن توپ را طوری هل بدی که در امتیازهای بالاتر متوقف شود</p>
-      <div class="tut-demo" aria-hidden="true">
-        <div class="tut-ball" id="demoBall2" style="left:50%; bottom:36px;"></div>
-        <div class="tut-finger" id="demoFinger2" style="left:50%; bottom:36px;"></div>
-      </div>
-      <div class="tut-controls">
-        <button id="tut-back-2" class="secondary">‹ قبلی</button>
-        <button id="tut-start">شروع بازی</button>
-      </div>
-    </div>
-
-    <div class="tut-bottom">
-      <label><input type="checkbox" id="dontShowAgain"> نمایش نده دوباره</label>
-    </div>
-  </div>
-</div>
-
-<script>
-(function(){
-  const modal = document.getElementById('tutorialModal');
-  const step1 = document.getElementById('tut-step-1');
-  const step2 = document.getElementById('tut-step-2');
-  const next1 = document.getElementById('tut-next-1');
-  const skip = document.getElementById('tut-skip');
-  const back2 = document.getElementById('tut-back-2');
-  const startBtn = document.getElementById('tut-start');
-  const chk = document.getElementById('dontShowAgain');
-
-  // demo animations for step2: run finger tap and ball fly repeatedly
-  const finger2 = document.getElementById('demoFinger2');
-  const ball2 = document.getElementById('demoBall2');
-  function startStep2Anim(){
-    // finger tap
-    finger2.style.opacity = '1';
-    finger2.style.animation = 'finger-tap 900ms ease-in-out forwards';
-    // ball fly (after short delay)
-    ball2.style.animation = 'ball-fly 900ms ease-in forwards';
-    // loop with interval
-    clearInterval(window._tut2Interval);
-    window._tut2Interval = setInterval(()=> {
-      finger2.style.animation = 'none';
-      ball2.style.animation = 'none';
-      // force reflow
-      void finger2.offsetWidth;
-      void ball2.offsetWidth;
-      finger2.style.animation = 'finger-tap 900ms ease-in-out forwards';
-      ball2.style.animation = 'ball-fly 900ms ease-in forwards';
-    }, 1400);
-  }
-  function stopStep2Anim(){
-    clearInterval(window._tut2Interval);
-    finger2.style.animation = 'none';
-    ball2.style.animation = 'none';
-  }
-
-  // check localStorage — اگر قبلاً دیده شد، وصل نشود
-  try {
-    const seen = localStorage.getItem('darts_tutorial_shown_v1');
-    if (seen === 'yes') {
-      // do nothing — keep modal hidden
-      return;
-    }
-  } catch(e){ /* ignore storage errors */ }
-
-  // show modal
-  function openTutorial(){
-    modal.style.display = 'flex';
-    modal.setAttribute('aria-hidden','false');
-    showStep(1);
-    // غیرفعال کردن تعامل با کانواس (درصورتی که کانواس وجود داشته باشه)
-    const cv = document.getElementById('gameCanvas');
-    if(cv) cv.style.pointerEvents = 'none';
-  }
-
-  function closeTutorial(){
-    modal.style.display = 'none';
-    modal.setAttribute('aria-hidden','true');
-    stopStep2Anim();
-    const cv = document.getElementById('gameCanvas');
-    if(cv) cv.style.pointerEvents = '';
-    if(chk.checked){
-      try { localStorage.setItem('darts_tutorial_shown_v1','yes'); } catch(e){}
-    }
-  }
-
-  function showStep(n){
-    step1.classList.remove('active');
-    step2.classList.remove('active');
-    if(n===1){ step1.classList.add('active'); stopStep2Anim(); }
-    if(n===2){ step2.classList.add('active'); startStep2Anim(); }
-  }
-
-  next1.addEventListener('click', ()=> showStep(2));
-  back2.addEventListener('click', ()=> showStep(1));
-  skip.addEventListener('click', ()=> { closeTutorial(); });
-  startBtn.addEventListener('click', ()=> { closeTutorial(); });
-
-  // باز کردن آموزش بلافاصله (می‌تونی شرطِ دیگری هم بذاری)
-  // اگر می‌خواهی همیشه با دکمه خاص باز شود، غیرفعالش کن و فقط تابع openTutorial را از آن دکمه صدا بزن
-  openTutorial();
-
-})();
-</script>
-<!-- ===== tutorial modal end ===== -->
-
-
-
-
-
-
-
-
 <!-- دکمه برای نمایش/مخفی کردن صفحه چت -->
 <button id="toggleChatBtn">Show Chat Room</button>
 
@@ -568,6 +345,18 @@ canvas {
 </div>
 
 
+<div id="windInfo" style="
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    font-weight: bold;
+    color: red;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+"></div>
 
 
 
@@ -587,22 +376,6 @@ canvas {
 "></div>
 
 
-<button id="downloadBtn" style="
-    position: fixed;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    padding: 20px 0;
-    font-size: 30px;
-    font-weight: bold;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 0;
-    cursor: pointer;
-    z-index: 10000;
-    display: none;  /* ابتدا مخفی باشد */
-">دانلود فایل(Zip)</button>
 
 
 
@@ -681,6 +454,11 @@ let totalScore = 0;
 let turn = 0;
 const maxTurns = 5;
 let turnScores = [];
+
+
+let wind = {dir: 'up', strength: 0};
+
+
 
 let resizeTapCount = 0;  // شمارنده ضربه برای ریسایز
 const tapsNeeded = 20;    // تعداد ضربه لازم برای ریسایز
@@ -807,6 +585,15 @@ canvas.addEventListener('pointerup', e=>{
     const dy = endPos.y - startTouch.y;
     ball.vx = dx*0.2;
     ball.vy = dy*0.2;
+
+
+if(windDirection === "بالا"){
+    ball.vy += ball.vy * windStrength; // افزایش سرعت به سمت بالا
+} else if(windDirection === "پایین"){
+    ball.vy -= ball.vy * windStrength; // کاهش سرعت به سمت پایین
+}
+
+
     isMoving = true;
     hasThrown = true;
     startTouch = null;
@@ -1010,6 +797,7 @@ function resetBall(){
     ball.vy = 0;
     ball.color = 'white';
     ball.scored = false;
+ generateWind(); // باد جدید قبل از پرتاب
 }
 
     
@@ -1132,6 +920,19 @@ function showFinalScore(){
     document.getElementById('finalScore').style.display = 'block';
     document.getElementById('resetBtn').style.display = 'block';
 }
+
+
+
+function generateWind(){
+    // فقط بالا یا پایین
+    wind.dir = Math.random() < 0.5 ? 'up' : 'down';
+    wind.strength = parseFloat((Math.random()).toFixed(2)); // ضریب بین 0 و 1
+
+    const windDiv = document.getElementById('windInfo');
+    let arrow = wind.dir === 'up' ? '↑' : '↓'; // فلش قرمز
+    windDiv.innerHTML = `<span style="color:red;">${arrow}</span> <span>${wind.strength}</span>`;
+}
+
 
 
 
@@ -1462,41 +1263,14 @@ updateBallLabel(ball)
 if(checkInternetAtStart()){
 
 
-const downloadBtn = document.getElementById("downloadBtn");
-
-// چک کردن اگر قبلاً دانلود شده باشد
-if(localStorage.getItem("downloaded")) {
-    downloadBtn.style.display = "none";
-} else {
-    downloadBtn.style.display = "block";
-}
-
-downloadBtn.addEventListener("click", async () => {
-    // ایجاد ZIP و اضافه کردن کل صفحه HTML
-    const zip = new JSZip();
-    zip.file("PartaabGame.html", document.documentElement.outerHTML);
-
-    const content = await zip.generateAsync({type:"blob"});
-
-    // ایجاد لینک دانلود و کلیک اتوماتیک
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(content);
-    a.download = "PartaabGame.zip";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-
-    // ذخیره وضعیت دانلود و مخفی کردن دکمه
-    localStorage.setItem("downloaded", "true");
-    downloadBtn.style.display = "none";
-});
-
 
 
 showTopPlayerName(); // قبل از gameLoop()
-    gameLoop(); // ادامه بازی
+    generateWind();
+gameLoop(); // ادامه بازی
 } else {
-    gameLoop(); // ادامه بازی
+    generateWind();
+gameLoop(); // ادامه بازی
 }
 
 
@@ -1505,7 +1279,5 @@ showTopPlayerName(); // قبل از gameLoop()
 </script>
 </body>
 </html>
-
-
 
 
