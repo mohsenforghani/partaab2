@@ -649,7 +649,7 @@ document.getElementById("showScoresBtn").addEventListener("click", ()=>{
 `);
   
 
-    fetch("https://script.google.com/macros/s/AKfycbw3ij6MXvWgSHnUlDxAhlT150K6GgOX4hyU63VHRJ1_M_QXvI0_-5PbCbh4qrSKrAI/exec")
+    fetch("https://script.google.com/macros/s/AKfycbzDT1ifMtyL7TJlHgG916tiOhfdPpgQ8iZd-t41OjO7JoY9YXv0oCHJpAVFZaETpF4l1A/exec")
     .then(res=>res.json())
     .then(data=>{
         data.sort((a,b)=> b.score - a.score);
@@ -940,7 +940,7 @@ function generateWind(){
 
 async function showTopPlayerName() {
     try {
-        const response = await fetch("https://script.google.com/macros/s/AKfycbw3ij6MXvWgSHnUlDxAhlT150K6GgOX4hyU63VHRJ1_M_QXvI0_-5PbCbh4qrSKrAI/exec");
+        const response = await fetch("https://script.google.com/macros/s/AKfycbzDT1ifMtyL7TJlHgG916tiOhfdPpgQ8iZd-t41OjO7JoY9YXv0oCHJpAVFZaETpF4l1A/exec");
         const data = await response.json();
         data.sort((a,b)=> b.score - a.score); // مرتب‌سازی نزولی
         const topPlayer = data[0]?.name || "ناشناس";
@@ -1030,7 +1030,7 @@ function sendScore() {
     }
 
     // ارسال امتیاز به Google Sheets و دریافت رتبه
-    fetch("https://script.google.com/macros/s/AKfycbw3ij6MXvWgSHnUlDxAhlT150K6GgOX4hyU63VHRJ1_M_QXvI0_-5PbCbh4qrSKrAI/exec", {
+    fetch("https://script.google.com/macros/s/AKfycbzDT1ifMtyL7TJlHgG916tiOhfdPpgQ8iZd-t41OjO7JoY9YXv0oCHJpAVFZaETpF4l1A/exec", {
         method: 'POST',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: 'name=' + encodeURIComponent(playerName) + '&score=' + encodeURIComponent(finalScore)
@@ -1280,6 +1280,7 @@ gameLoop(); // ادامه بازی
 </script>
 </body>
 </html>
+
 
 
 
