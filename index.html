@@ -580,24 +580,27 @@ if (e.pointerType !== 'touch' ) return;
 canvas.addEventListener('pointerup', e=>{
     if(!startTouch) return;
     if(turn >= maxTurns) return;
+
     const endPos = getTouchPos(e);
     const dx = endPos.x - startTouch.x;
     const dy = endPos.y - startTouch.y;
-    ball.vx = dx*0.2;
-    ball.vy = dy*0.2;
 
+    // سرعت اولیه توپ
+    ball.vx = dx * 0.2;
+    ball.vy = dy * 0.2;
 
-if(windDirection === "بالا"){
-    ball.vy += ball.vy * windStrength; // افزایش سرعت به سمت بالا
-} else if(windDirection === "پایین"){
-    ball.vy -= ball.vy * windStrength; // کاهش سرعت به سمت پایین
-}
-
+    // اعمال باد فقط بالا/پایین
+    if(wind.dir === 'down'){
+        ball.vy = ball.vy - (ball.vy * wind.strength);
+    } else if(wind.dir === 'up'){
+        ball.vy = ball.vy + (Math.abs(ball.vy) * wind.strength);
+    }
 
     isMoving = true;
     hasThrown = true;
     startTouch = null;
 });
+
 
 
 
@@ -1279,5 +1282,6 @@ gameLoop(); // ادامه بازی
 </script>
 </body>
 </html>
+
 
 
