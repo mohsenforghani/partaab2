@@ -587,11 +587,12 @@ canvas.addEventListener('pointerup', e=>{
     ball.vy = dy*0.2;
 
 
-if(windDirection === "بالا"){
-    ball.vy += ball.vy * windStrength; // افزایش سرعت به سمت بالا
-} else if(windDirection === "پایین"){
-    ball.vy -= ball.vy * windStrength; // کاهش سرعت به سمت پایین
-}
+// اعمال باد
+    if(wind.dir === 'down'){
+        ball.vy = ball.vy - (ball.vy * wind.strength); // پایین سرعت کم میشه
+    } else if(wind.dir === 'up'){
+        ball.vy = ball.vy + (Math.abs(ball.vy) * wind.strength); // بالا سرعت زیاد میشه
+    }
 
 
     isMoving = true;
@@ -924,14 +925,14 @@ function showFinalScore(){
 
 
 function generateWind(){
-    // فقط بالا یا پایین
     wind.dir = Math.random() < 0.5 ? 'up' : 'down';
-    wind.strength = parseFloat((Math.random()).toFixed(2)); // ضریب بین 0 و 1
+    wind.strength = parseFloat(Math.random().toFixed(2));
 
     const windDiv = document.getElementById('windInfo');
-    let arrow = wind.dir === 'up' ? '↑' : '↓'; // فلش قرمز
+    let arrow = wind.dir === 'up' ? '↑' : '↓';
     windDiv.innerHTML = `<span style="color:red;">${arrow}</span> <span>${wind.strength}</span>`;
 }
+
 
 
 
@@ -1279,5 +1280,6 @@ gameLoop(); // ادامه بازی
 </script>
 </body>
 </html>
+
 
 
