@@ -273,7 +273,10 @@ canvas {
     Your browser does not support the audio element.
 </audio>
 
-  
+    <audio id="scoresound" preload="auto">
+    <source src="https://raw.githubusercontent.com/mohsenforghani/gamesound/refs/heads/main/jiring.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+</audio>
 
 
 <div id="topPlayerName" style="
@@ -469,6 +472,7 @@ let turnScores = [];
   
 let gameSound = document.getElementById('gameSound');
 let soundOver1002 = document.getElementById('over1002');
+let soundscoreingame = document.getElementById('scoresound');
 // وقتی بازی شروع می‌شود، صدا را پخش کن
 function startGame() {
     gameSound.loop = true;  // برای تکرار صدا
@@ -479,7 +483,10 @@ function soundradshodan1002() {
   soundOver1002.play();       // پخش صدا
   soundOver1002.loop = false;  // برای تکرار صدا    
 }
-
+ function soundscorefunc() {
+    soundscoreingame.play();       // پخش صدا
+  soundscoreingame.loop = false;  // برای تکرار صدا   
+}
 
   
 let windDirection = '';
@@ -792,7 +799,7 @@ function calculateScore(){
 
     turnScores.push(score);
     totalScore += score;
-
+    soundscorefunc();
 document.getElementById('totalScoreDisplay').style.display = 'block';
 // نمایش جمع امتیاز
 document.getElementById('totalScoreDisplay').innerText = 'Total Score : ' + totalScore.toFixed(2);
@@ -1316,6 +1323,7 @@ if(checkInternetAtStart()){
 </script>
 </body>
 </html>
+
 
 
 
