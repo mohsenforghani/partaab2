@@ -269,7 +269,7 @@ canvas {
     Your browser does not support the audio element.
 </audio>
 <audio id="over100" preload="auto">
-    <source src="https://raw.githubusercontent.com/mohsenforghani/gamesound/refs/heads/main/over100-2.mp3" type="audio/mp3">
+    <source src="https://raw.githubusercontent.com/mohsenforghani/gamesound/refs/heads/main/over100.mp3" type="audio/mp3">
     Your browser does not support the audio element.
 </audio>
 
@@ -1012,7 +1012,7 @@ function updateBallLabel(ball) {
     
     // نمایش فقط وقتی توپ در حال حرکت است
     ballLabel.style.display = (isMoving || hasThrown) ? 'block' : 'none';
-   if(ball.y <= 0) {
+     if (ball.y <= 0) {
     soundradshodan100();
   }
 }
@@ -1316,6 +1316,7 @@ if(checkInternetAtStart()){
 </script>
 </body>
 </html>
+
 
 
 
