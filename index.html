@@ -268,8 +268,8 @@ canvas {
     <source src="https://raw.githubusercontent.com/mohsenforghani/gamesound/refs/heads/main/SoundGamePartaab.mp3" type="audio/mp3">
     Your browser does not support the audio element.
 </audio>
-<audio id="over100" preload="auto">
-    <source src="https://raw.githubusercontent.com/mohsenforghani/gamesound/refs/heads/main/over100.mp3" type="audio/mp3">
+<audio id="over1002" preload="auto">
+    <source src="https://raw.githubusercontent.com/mohsenforghani/gamesound/refs/heads/main/over100-2.mp3" type="audio/mp3">
     Your browser does not support the audio element.
 </audio>
 
@@ -468,16 +468,16 @@ const maxTurns = 5;
 let turnScores = [];
   
 let gameSound = document.getElementById('gameSound');
-let soundOver100 = document.getElementById('over100');
+let soundOver1002 = document.getElementById('over1002');
 // وقتی بازی شروع می‌شود، صدا را پخش کن
 function startGame() {
     gameSound.loop = true;  // برای تکرار صدا
     gameSound.play();       // پخش صدا
 }
 
-function soundradshodan100() {
-  soundOver100.play();       // پخش صدا
-  soundOver100.loop = false;  // برای تکرار صدا    
+function soundradshodan1002() {
+  soundOver1002.play();       // پخش صدا
+  soundOver1002.loop = false;  // برای تکرار صدا    
 }
 
 
@@ -1013,7 +1013,7 @@ function updateBallLabel(ball) {
     // نمایش فقط وقتی توپ در حال حرکت است
     ballLabel.style.display = (isMoving || hasThrown) ? 'block' : 'none';
      if (ball.y <= 0) {
-    soundradshodan100();
+    soundradshodan1002();
   }
 }
 
@@ -1316,6 +1316,7 @@ if(checkInternetAtStart()){
 </script>
 </body>
 </html>
+
 
 
 
