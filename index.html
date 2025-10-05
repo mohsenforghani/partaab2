@@ -347,8 +347,8 @@ canvas {
 
 <div id="windInfo" style="
     position: absolute;
-    bottom: 10px;
-    right: 10px;
+    bottom: 80px;
+    right: 50%;
     transform: translateX(-50%);
     font-size: 20px;
     font-weight: bold;
@@ -933,7 +933,6 @@ function showFinalScore(){
 }
 
 
-
 // تابع برای تولید باد
 function generateWind() {
     windDirection = Math.random() < 0.5 ? 'up' : 'down'; // باد به سمت بالا یا پایین
@@ -941,8 +940,14 @@ function generateWind() {
 
     const windDiv = document.getElementById('windInfo');
     let arrow = windDirection === 'up' ? '↑' : '↓'; // فلش قرمز
-    windDiv.innerHTML = `<span style="color:red;">${arrow}</span> <span>${windStrength}</span>`;
+
+    // اضافه کردن استیکر باد قبل از فلش
+    let windSticker = '💨';  // استیکر باد
+
+    // نمایش باد به همراه استیکر و فلش
+    windDiv.innerHTML = `<span style="color:red;">${arrow}</span> <span>${windStrength.toFixed(2)}</span> <span style="font-size: 25px;">${windSticker}</span>`;
 }
+
 
 
 
@@ -1272,9 +1277,6 @@ updateBallLabel(ball)
 }
 if(checkInternetAtStart()){
 
-
-
-
 showTopPlayerName(); // قبل از gameLoop()
     generateWind();
 gameLoop(); // ادامه بازی
@@ -1286,9 +1288,5 @@ gameLoop(); // ادامه بازی
 </script>
 </body>
 </html>
-
-
-
-
 
 
