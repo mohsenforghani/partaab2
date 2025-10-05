@@ -358,6 +358,7 @@ canvas {
     gap: 5px;
 "></div>
 
+<div id="windDirection"></div> <!-- برای نمایش اطلاعات باد -->
 
 
 
@@ -456,8 +457,8 @@ const maxTurns = 5;
 let turnScores = [];
 
 
-let windDirection = Math.random() < 0.5 ? 'down' : 'up'; // باد به سمت بالا یا پایین
-let windStrength = Math.random() * 0.1; // قدرت باد بین 0 تا 0.1
+let windDirection = '';
+let windStrength = 0;
 const windDisplay = document.getElementById('windDirection');
 windDisplay.innerText = `باد جهت: ${windDirection} | ضریب: ${windStrength.toFixed(2)}`;
 
@@ -580,9 +581,10 @@ if (e.pointerType !== 'touch' ) return;
     }
 },{passive:false});
 
-canvas.addEventListener('pointerup', e=>{
-    if(!startTouch) return;
-    if(turn >= maxTurns) return;
+// اضافه کردن رویداد pointerup
+canvas.addEventListener('pointerup', e => {
+    if (!startTouch) return;
+    if (turn >= maxTurns) return;
 
     const endPos = getTouchPos(e);
     const dx = endPos.x - startTouch.x;
@@ -932,16 +934,15 @@ function showFinalScore(){
 
 
 
-function generateWind(){
-    // فقط بالا یا پایین
-    wind.dir = Math.random() < 0.5 ? 'up' : 'down';
-    wind.strength = parseFloat((Math.random()).toFixed(2)); // ضریب بین 0 و 1
+// تابع برای تولید باد
+function generateWind() {
+    windDirection = Math.random() < 0.5 ? 'up' : 'down'; // باد به سمت بالا یا پایین
+    windStrength = parseFloat((Math.random()).toFixed(2)); // ضریب بین 0 و 1
 
     const windDiv = document.getElementById('windInfo');
-    let arrow = wind.dir === 'up' ? '↑' : '↓'; // فلش قرمز
-    windDiv.innerHTML = `<span style="color:red;">${arrow}</span> <span>${wind.strength}</span>`;
+    let arrow = windDirection === 'up' ? '↑' : '↓'; // فلش قرمز
+    windDiv.innerHTML = `<span style="color:red;">${arrow}</span> <span>${windStrength}</span>`;
 }
-
 
 
 
@@ -1282,14 +1283,9 @@ gameLoop(); // ادامه بازی
 gameLoop(); // ادامه بازی
 }
 
-
-
-
 </script>
 </body>
 </html>
-
-
 
 
 
