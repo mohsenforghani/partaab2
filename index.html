@@ -1012,7 +1012,7 @@ function updateBallLabel(ball) {
     
     // نمایش فقط وقتی توپ در حال حرکت است
     ballLabel.style.display = (isMoving || hasThrown) ? 'block' : 'none';
-   if(ball.y == 0) {
+   if(ball.y <= 0) {
     soundradshodan100();
   }
 }
@@ -1316,6 +1316,7 @@ if(checkInternetAtStart()){
 </script>
 </body>
 </html>
+
 
 
 
