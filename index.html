@@ -387,21 +387,21 @@ canvas {
 <canvas id="gameCanvas"></canvas>
 
     
-   <div id="newsTicker" style="
-    position: absolute;
-    bottom: 62px; 
-    left: -20%; /* شروع از خارج صفحه */
-    white-space: nowrap;
-    font-size: 12px; 
-    color: yellow; 
-    font-family: Arial, sans-serif;
- -webkit-user-select: none; /* برای Safari و iOS */
-  -moz-user-select: none;    /* برای Firefox */
-  -ms-user-select: none;     /* برای IE */
-  user-select: none;         /* برای مرورگرهای جدید */
-  pointer-events: none;      /* جلوگیری از تأثیر کلیک یا درگ روی سایر دکمه‌ها */
-    z-index: 1000;
-"></div>
+  // <div id="newsTicker" style="
+  //  position: absolute;
+   // bottom: 62px; 
+  //  left: -20%; /* شروع از خارج صفحه */
+ //   white-space: nowrap;
+ //   font-size: 12px; 
+  //  color: yellow; 
+ //   font-family: Arial, sans-serif;
+// -webkit-user-select: none; /* برای Safari و iOS */
+ // -moz-user-select: none;    /* برای Firefox */
+//  -ms-user-select: none;     /* برای IE */
+//  user-select: none;         /* برای مرورگرهای جدید */
+//  pointer-events: none;      /* جلوگیری از تأثیر کلیک یا درگ روی سایر دکمه‌ها */
+//    z-index: 1000;
+// "></div>
 
 
 
@@ -450,7 +450,7 @@ const ctx = canvas.getContext('2d');
 
 let playerName = prompt("نام بازیکن را وارد کنید:");
 if(!playerName) playerName = "ناشناس";
-let currentNews = "";
+// let currentNews = "";
 let totalScore = 0;
 let turn = 0;
 const maxTurns = 5;
@@ -812,75 +812,75 @@ function resetBall(){
 }
 
     
-let newsMessages = []; // آرایه نگهداری اخبار
+// let newsMessages = []; // آرایه نگهداری اخبار
 
-async function fetchNews() {
-    try {
-        const rawUrl = "https://raw.githubusercontent.com/mohsenforghani/news/refs/heads/main/news.txt?t=" + new Date().getTime();
-        const response = await fetch(rawUrl);
-        if(!response.ok) throw new Error("خطا در دریافت اخبار");
-        const text = await response.text();
-        newsMessages = text.split("\n").filter(line => line.trim() !== "");
-    } catch (err) {
-        console.error("اخبار بارگذاری نشد:", err);
-    }
-}
+//async function fetchNews() {
+ //   try {
+   //     const rawUrl = "https://raw.githubusercontent.com/mohsenforghani/news/refs/heads/main/news.txt?t=" + new Date().getTime();
+  //      const response = await fetch(rawUrl);
+    //    if(!response.ok) throw new Error("خطا در دریافت اخبار");
+    //    const text = await response.text();
+    //    newsMessages = text.split("\n").filter(line => line.trim() !== "");
+ //   } catch (err) {
+  //      console.error("اخبار بارگذاری نشد:", err);
+   // }
+// }
 
 // فراخوانی اولیه و سپس هر 30 ثانیه
-fetchNews();
-setInterval(fetchNews, 10000);
+// fetchNews();
+// setInterval(fetchNews, 10000);
 
     
     
-function showNewsTicker(text) {
-    let ticker = document.getElementById('newsTicker');
-    if(!ticker){
-        ticker = document.createElement('div');
-        ticker.id = 'newsTicker';
-        ticker.style.position = 'absolute';
-        ticker.style.bottom = '62px';
-        ticker.style.whiteSpace = 'nowrap';
-        ticker.style.fontSize = '12px';
-        ticker.style.color = 'red';
-        ticker.style.zIndex = 1000;
-        document.body.appendChild(ticker);
-    }
-    ticker.innerText = text;
+//function showNewsTicker(text) {
+ //   let ticker = document.getElementById('newsTicker');
+ //   if(!ticker){
+ //       ticker = document.createElement('div');
+  //      ticker.id = 'newsTicker';
+   //     ticker.style.position = 'absolute';
+    //    ticker.style.bottom = '62px';
+   //     ticker.style.whiteSpace = 'nowrap';
+   //     ticker.style.fontSize = '12px';
+   //     ticker.style.color = 'red';
+   //     ticker.style.zIndex = 1000;
+   //     document.body.appendChild(ticker);
+ //   }
+ //   ticker.innerText = text;
     
     // انیمیشن عبور از چپ به راست
-    ticker.style.transition = 'none';
-    ticker.style.left = '-' + ticker.offsetWidth + 'px';  // شروع از بیرون سمت چپ
-    void ticker.offsetWidth; // force reflow
-    ticker.style.transition = 'left 15s linear';
-    ticker.style.left = window.innerWidth + "px";  // حرکت تا بیرون سمت راست
+ //   ticker.style.transition = 'none';
+  //  ticker.style.left = '-' + ticker.offsetWidth + 'px';  // شروع از بیرون سمت چپ
+  //  void ticker.offsetWidth; // force reflow
+ //   ticker.style.transition = 'left 15s linear';
+//    ticker.style.left = window.innerWidth + "px";  // حرکت تا بیرون سمت راست
 
     // تکرار دوباره
-    setTimeout(() => {
-        ticker.style.transition = 'none';
-        ticker.style.left = '-' + ticker.offsetWidth + 'px';  // دوباره بره چپ
-        void ticker.offsetWidth;
-        ticker.style.transition = 'left 15s linear';
-        ticker.style.left = window.innerWidth + "px";  // دوباره حرکت کنه به راست
-    }, 16000);  // زمان دقیق رو باید متناسب با سرعت (15s) تنظیم کنی
-}
+  //  setTimeout(() => {
+   //     ticker.style.transition = 'none';
+   //     ticker.style.left = '-' + ticker.offsetWidth + 'px';  // دوباره بره چپ
+   //     void ticker.offsetWidth;
+   //     ticker.style.transition = 'left 15s linear';
+   //     ticker.style.left = window.innerWidth + "px";  // دوباره حرکت کنه به راست
+ //   }, 16000);  // زمان دقیق رو باید متناسب با سرعت (15s) تنظیم کنی
+// }
 
 
 
 
 
 
-setInterval(async () => {
-    try {
-        const response = await fetch("https://raw.githubusercontent.com/mohsenforghani/news/refs/heads/main/news.txt?t=" + new Date().getTime());
-        const latestNews = await response.text();
-        if(latestNews !== currentNews){
-            currentNews = latestNews;
-            showNewsTicker(currentNews);
-        }
-    } catch(err){
-        console.error("خطا در دریافت news:", err);
-    }
-}, 5000); // هر 5 ثانیه چک شود
+// setInterval(async () => {
+  //  try {
+  //      const response = await fetch("https://raw.githubusercontent.com/mohsenforghani/news/refs/heads/main/news.txt?t=" + new Date().getTime());
+  //      const latestNews = await response.text();
+  //      if(latestNews !== currentNews){
+  //          currentNews = latestNews;
+    //        showNewsTicker(currentNews);
+  //      }
+  //  } catch(err){
+   //     console.error("خطا در دریافت news:", err);
+ //   }
+// }, 5000); // هر 5 ثانیه چک شود
 
 //setInterval(fetchNews, 5000);
 
@@ -1288,5 +1288,6 @@ gameLoop(); // ادامه بازی
 </script>
 </body>
 </html>
+
 
 
