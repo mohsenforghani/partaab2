@@ -347,8 +347,8 @@ canvas {
 
 <div id="windInfo" style="
     position: absolute;
-    top: 10px;
-    left: 50%;
+    bottom: 10px;
+    right: 50%;
     transform: translateX(-50%);
     font-size: 20px;
     font-weight: bold;
@@ -456,7 +456,10 @@ const maxTurns = 5;
 let turnScores = [];
 
 
-let wind = {dir: 'up', strength: 0};
+let windDirection = Math.random() < 0.5 ? 'down' : 'up'; // باد به سمت بالا یا پایین
+let windStrength = Math.random() * 0.1; // قدرت باد بین 0 تا 0.1
+const windDisplay = document.getElementById('windDirection');
+windDisplay.innerText = `باد جهت: ${windDirection} | ضریب: ${windStrength.toFixed(2)}`;
 
 
 
@@ -585,16 +588,19 @@ canvas.addEventListener('pointerup', e=>{
     const dx = endPos.x - startTouch.x;
     const dy = endPos.y - startTouch.y;
 
-    // سرعت اولیه توپ
-    ball.vx = dx * 0.2;
-    ball.vy = dy * 0.2;
+    // اعمال تاثیر باد بر سرعت توپ
+    let adjustedVx = dx * 0.2;
+    let adjustedVy = dy * 0.2;
 
-    // اعمال باد فقط بالا/پایین
-    if(wind.dir === 'down'){
-        ball.vy = ball.vy - (ball.vy * wind.strength);
-    } else if(wind.dir === 'up'){
-        ball.vy = ball.vy + (Math.abs(ball.vy) * wind.strength);
+    // اعمال جهت و قدرت باد
+    if (windDirection === 'down') {
+        adjustedVy += windStrength * 10; // تاثیر بیشتر باد به سمت پایین
+    } else if (windDirection === 'up') {
+        adjustedVy -= windStrength * 10; // تاثیر بیشتر باد به سمت بالا
     }
+
+    ball.vx = adjustedVx;
+    ball.vy = adjustedVy;
 
     isMoving = true;
     hasThrown = true;
@@ -1282,6 +1288,7 @@ gameLoop(); // ادامه بازی
 </script>
 </body>
 </html>
+
 
 
 
