@@ -621,9 +621,9 @@ canvas.addEventListener('pointerup', e => {
 
     // اعمال جهت و قدرت باد
     if (windDirection === 'down') {
-        adjustedVy += windStrength * 10; // تاثیر بیشتر باد به سمت پایین
+        adjustedVy += windStrength * 5; // تاثیر بیشتر باد به سمت پایین
     } else if (windDirection === 'up') {
-        adjustedVy -= windStrength * 10; // تاثیر بیشتر باد به سمت بالا
+        adjustedVy -= windStrength * 5; // تاثیر بیشتر باد به سمت بالا
     }
 
     ball.vx = adjustedVx;
@@ -1316,6 +1316,7 @@ if(checkInternetAtStart()){
 </script>
 </body>
 </html>
+
 
 
 
