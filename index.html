@@ -1272,23 +1272,23 @@ function drawFloats(){
 // Game loop
 function gameLoop(){
     update();
-updateBallLabel(ball)
+    updateBallLabel(ball)
     draw();
     requestAnimationFrame(gameLoop);
 }
 if(checkInternetAtStart()){
-
-showTopPlayerName(); // قبل از gameLoop()
+    showTopPlayerName();
     generateWind();
-gameLoop(); // ادامه بازی
+    gameLoop(); // ادامه بازی
 } else {
     generateWind();
-gameLoop(); // ادامه بازی
+    gameLoop(); // ادامه بازی
 }
 
 </script>
 </body>
 </html>
+
 
 
 
