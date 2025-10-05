@@ -347,9 +347,9 @@ canvas {
 
 <div id="windInfo" style="
     position: absolute;
-    bottom: 80px;
-    right: 50%;
-    transform: translateX(-50%);
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     font-size: 20px;
     font-weight: bold;
     color: red;
@@ -357,6 +357,7 @@ canvas {
     align-items: center;
     gap: 5px;
 "></div>
+
 
 <div id="windDirection"></div> <!-- برای نمایش اطلاعات باد -->
 
@@ -945,7 +946,7 @@ function generateWind() {
     let windSticker = '💨';  // استیکر باد
 
     // نمایش باد به همراه استیکر و فلش
-    windDiv.innerHTML = `<span style="color:red;">${arrow}</span> <span>${windStrength.toFixed(2)}</span> <span style="font-size: 25px;">${windSticker}</span>`;
+    windDiv.innerHTML = `<span style="color:red;">${arrow}</span> <span>${windStrength.toFixed(2)}</span> <span style="font-size: 28px;">${windSticker}</span>`;
 }
 
 
@@ -1288,6 +1289,7 @@ gameLoop(); // ادامه بازی
 </script>
 </body>
 </html>
+
 
 
 
