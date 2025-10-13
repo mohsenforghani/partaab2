@@ -459,13 +459,18 @@ const canvas = document.getElementById('gameCanvas');
 const ballLabel = document.getElementById("ballLabel");
 
 
+if (playerName && finalScore) {
+    document.getElementById('playerInfo').innerText =
+        'بازیکن: ' + playerName + ' | امتیاز مرحله قبل: ' + finalScore;
+}
+
 
 const ctx = canvas.getContext('2d');
 
 let playerName = localStorage.getItem('playerName');
 if(!playerName) playerName = "ناشناس";
 // let currentNews = "";
-let totalScore = 0;
+let totalScore = localStorage.getItem('finalScore');
 let turn = 0;
 const maxTurns = 5;
 let turnScores = [];
