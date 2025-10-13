@@ -443,7 +443,11 @@ canvas {
     z-index: 20000;
 ">Reset Game</button>
 
-  
+
+
+
+
+
 <!-- نام سازنده -->
 <div id="creatorName">Created by Mohsen Forghani</div>
 
@@ -455,17 +459,13 @@ const canvas = document.getElementById('gameCanvas');
 const ballLabel = document.getElementById("ballLabel");
 
 
-if (playerName && finalScore) {
-    document.getElementById('playerInfo').innerText =
-        'بازیکن: ' + playerName + ' | امتیاز مرحله قبل: ' + finalScore;
-}
-
 
 const ctx = canvas.getContext('2d');
 
 let playerName = localStorage.getItem('playerName');
 if(!playerName) playerName = "ناشناس";
 // let currentNews = "";
+let totalScore = 0;
 let turn = 0;
 const maxTurns = 5;
 let turnScores = [];
@@ -1323,10 +1323,6 @@ if(checkInternetAtStart()){
 </script>
 </body>
 </html>
-
-
-
-
 
 
 
