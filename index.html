@@ -462,7 +462,7 @@ const ballLabel = document.getElementById("ballLabel");
 
 const ctx = canvas.getContext('2d');
 
-let playerName = prompt("نام بازیکن را وارد کنید:");
+let playerName = localStorage.getItem('playerName');
 if(!playerName) playerName = "ناشناس";
 // let currentNews = "";
 let totalScore = 0;
@@ -1198,8 +1198,6 @@ document.getElementById('totalScoreDisplay').innerText = 'Total Score : 0';
 
 
 
-
-
 document.getElementById('nameDisplay').innerText='بازیکن: '+playerName;
 let floats = [];
 
@@ -1325,20 +1323,6 @@ if(checkInternetAtStart()){
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
