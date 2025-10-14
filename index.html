@@ -4,10 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
-<title>بازی پرتاب آتشین </title>
+<title>مرحله دوم بازی پرتاب آتشین </title>
 <style>
 body { margin:0; overflow:hidden; background:#222; touch-action:none; font-family:Arial,sans-serif; color:white;}
 #score,#turns,#nameDisplay,#totalScoreDisplay {position:absolute; font-size:12px; z-index:10;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;pointer-events: none;}
@@ -38,9 +36,8 @@ body { margin:0; overflow:hidden; background:#222; touch-action:none; font-famil
 
 
 
-#finalScore {
-  
-    position: absolute;
+#finalScore { 
+   position: absolute;
     top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -72,22 +69,6 @@ body { margin:0; overflow:hidden; background:#222; touch-action:none; font-famil
     transform: translateY(-50%) rotate(180deg) scale(1.1);
 }
 
-#resetBtn {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 15px 0;
-    font-size: 20px;
-    display: none;
-    cursor: pointer;
-    text-align: center;
-    background-color: #f39c12;
-    color: white;
-    z-index:20000;   /* بالاتر از همه */
-    border: none;
-}
-
 
 
     
@@ -112,7 +93,8 @@ body { margin:0; overflow:hidden; background:#222; touch-action:none; font-famil
 
     transition: all 0.3s ease;
 
-  
+   
+
     /* ایجاد زمینه برای انعکاس */
     overflow: visible;
 }
@@ -124,7 +106,7 @@ body { margin:0; overflow:hidden; background:#222; touch-action:none; font-famil
     top: 100%;          /* زیر دکمه */
     left: 0;
     width: 100%;
-    height: 20px;       /* ارتفاع انعکاس */
+    height: 60px;       /* ارتفاع انعکاس */
     background: linear-gradient(to top, rgba(255,215,0,0.5), rgba(255,215,0,0)); /* محو */
     border-radius: 10px;
     transform: scaleY(-1);
@@ -256,7 +238,21 @@ text-align: right; /* پیام‌ها به سمت راست تراز می‌شو�
 
 
     
-
+#resetBtn {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 0;
+    font-size: 20px;
+    display: none;
+    cursor: pointer;
+    text-align: center;
+    background-color: #f39c12;
+    color: white;
+z-index:20000;   /* بالاتر از همه */
+    border: none;
+}
 canvas {
     display: block;
     width: 100%;   /* عرض نمایش داده شود ولی اندازه واقعی canvas بدون تغییر */
@@ -268,220 +264,6 @@ canvas {
 <body>
 
 
-
-<!-- ===== Tutorial Modal (place this just after <body> or before your canvas) ===== -->
-<style>
-/* tutorial modal styles */
-#tutorialModal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9997;
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-}
-#tutorialCard {
-  width: min(720px, 92vw);
-  background: linear-gradient(180deg,#1f1f2a,#2b2b35);
-  border-radius: 12px;
-  padding: 18px;
-  color: #fff;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-  text-align: center;
-}
-.tut-step { display: none; }
-.tut-step.active { display: block; }
-
-/* simple demo area (ball + finger animation) */
-.tut-demo {
-  margin: 12px auto;
-  width: 240px;
-  height: 160px;
-  position: relative;
-  background: linear-gradient(180deg,#222,#1b1b1b);
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.04);
-}
-.tut-ball {
-  position: absolute;
-  left: 50%;
-  bottom: 18px;
-  transform: translateX(-50%);
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #fff, #ddd 35%, #999 100%);
-  box-shadow: 0 4px 8px rgba(0,0,0,.6), 0 0 8px rgba(255,255,255,0.03) inset;
-}
-.tut-finger {
-  position: absolute;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;  /* 👈 حالا همیشه دایره */
-  background: rgba(255,255,255,0.9);
-  transform-origin: center;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.5);
-  opacity: .95;
-}
-
-
-/* animation for step 1: drag up */
-@keyframes finger-drag {
-  0% { left: 50%; bottom: 36px; transform: translate(-50%,0) scale(1); opacity:.95; }
-  50% { left: 30%; bottom: 80px; transform: translate(-50%,-4px) scale(.95); }
-  100% { left: 18%; bottom: 120px; transform: translate(-50%,-8px) scale(.9); opacity:.0; }
-}
-/* animation for step 2: release (finger tap and ball flies) */
-@keyframes finger-tap {
-  0% { left: 50%; bottom: 36px; transform: translate(-50%,0) scale(1); }
-  40% { transform: translate(-50%,-6px) scale(.95); }
-  100% { transform: translate(-50%,0) scale(1); opacity: .0; }
-}
-@keyframes ball-fly {
-  0% { transform: translateX(-50%) translateY(0) scale(1); opacity:1; }
-  100% { transform: translateX(-50%) translateY(-220px) scale(.6); opacity:0; }
-}
-
-/* controls */
-.tut-controls { margin-top:8px; display:flex; gap:8px; justify-content:center; align-items:center; }
-.tut-controls button {
-  padding:8px 12px; border-radius:8px; border:0; cursor:pointer;
-  background:#f39c12; color:#111; font-weight:600;
-}
-.tut-controls .secondary { background:#444; color:white; }
-
-/* checkbox line */
-.tut-bottom { margin-top:8px; font-size:13px; color:#ddd; display:flex; gap:10px; align-items:center; justify-content:center; }
-.tut-bottom input[type="checkbox"]{ transform:scale(1.1); margin-right:6px; }
-</style>
-
-<div id="tutorialModal" aria-hidden="true" style="display:none;">
-  <div id="tutorialCard" role="dialog" aria-modal="true" aria-label="راهنمای بازی">
-    <!-- step 1 -->
-    <div class="tut-step" id="tut-step-1">
-      <h3>نحوه پرتاب</h3>
-      <p style="margin:6px 0 10px;"> توپ را به سمت امتیازهای داخل صفحه هُل بده</p>
-      <div class="tut-demo" aria-hidden="true">
-        <div class="tut-ball" id="demoBall1"></div>
-        <div class="tut-finger" id="demoFinger1" style="left:50%; bottom:36px; animation: finger-drag 1500ms linear infinite;"></div>
-      </div>
-      <div class="tut-controls">
-        <button id="tut-next-1">بعدی ›</button>
-        <button class="secondary" id="tut-skip">پرش</button>
-      </div>
-    </div>
-
-    <!-- step 2 -->
-    <div class="tut-step" id="tut-step-2">
-      <h3>روش امتیاز گیری</h3>
-      <p style="margin:6px 0 10px;">سعی کن توپ را طوری هل بدی که در امتیازهای بالاتر متوقف شود</p>
-      <div class="tut-demo" aria-hidden="true">
-        <div class="tut-ball" id="demoBall2" style="left:50%; bottom:36px;"></div>
-        <div class="tut-finger" id="demoFinger2" style="left:50%; bottom:36px;"></div>
-      </div>
-      <div class="tut-controls">
-        <button id="tut-back-2" class="secondary">‹ قبلی</button>
-        <button id="tut-start">شروع بازی</button>
-      </div>
-    </div>
-
-    <div class="tut-bottom">
-      <label><input type="checkbox" id="dontShowAgain"> نمایش نده دوباره</label>
-    </div>
-  </div>
-</div>
-
-<script>
-(function(){
-  const modal = document.getElementById('tutorialModal');
-  const step1 = document.getElementById('tut-step-1');
-  const step2 = document.getElementById('tut-step-2');
-  const next1 = document.getElementById('tut-next-1');
-  const skip = document.getElementById('tut-skip');
-  const back2 = document.getElementById('tut-back-2');
-  const startBtn = document.getElementById('tut-start');
-  const chk = document.getElementById('dontShowAgain');
-
-  // demo animations for step2: run finger tap and ball fly repeatedly
-  const finger2 = document.getElementById('demoFinger2');
-  const ball2 = document.getElementById('demoBall2');
-  function startStep2Anim(){
-    // finger tap
-    finger2.style.opacity = '1';
-    finger2.style.animation = 'finger-tap 900ms ease-in-out forwards';
-    // ball fly (after short delay)
-    ball2.style.animation = 'ball-fly 900ms ease-in forwards';
-    // loop with interval
-    clearInterval(window._tut2Interval);
-    window._tut2Interval = setInterval(()=> {
-      finger2.style.animation = 'none';
-      ball2.style.animation = 'none';
-      // force reflow
-      void finger2.offsetWidth;
-      void ball2.offsetWidth;
-      finger2.style.animation = 'finger-tap 900ms ease-in-out forwards';
-      ball2.style.animation = 'ball-fly 900ms ease-in forwards';
-    }, 1400);
-  }
-  function stopStep2Anim(){
-    clearInterval(window._tut2Interval);
-    finger2.style.animation = 'none';
-    ball2.style.animation = 'none';
-  }
-
-  // check localStorage — اگر قبلاً دیده شد، وصل نشود
-  try {
-    const seen = localStorage.getItem('darts_tutorial_shown_v1');
-    if (seen === 'yes') {
-      // do nothing — keep modal hidden
-      return;
-    }
-  } catch(e){ /* ignore storage errors */ }
-
-  // show modal
-  function openTutorial(){
-    modal.style.display = 'flex';
-    modal.setAttribute('aria-hidden','false');
-    showStep(1);
-    // غیرفعال کردن تعامل با کانواس (درصورتی که کانواس وجود داشته باشه)
-    const cv = document.getElementById('gameCanvas');
-    if(cv) cv.style.pointerEvents = 'none';
-  }
-
-  function closeTutorial(){
-    modal.style.display = 'none';
-    modal.setAttribute('aria-hidden','true');
-    stopStep2Anim();
-    const cv = document.getElementById('gameCanvas');
-    if(cv) cv.style.pointerEvents = '';
-    if(chk.checked){
-      try { localStorage.setItem('darts_tutorial_shown_v1','yes'); } catch(e){}
-    }
-  }
-
-  function showStep(n){
-    step1.classList.remove('active');
-    step2.classList.remove('active');
-    if(n===1){ step1.classList.add('active'); stopStep2Anim(); }
-    if(n===2){ step2.classList.add('active'); startStep2Anim(); }
-  }
-
-  next1.addEventListener('click', ()=> showStep(2));
-  back2.addEventListener('click', ()=> showStep(1));
-  skip.addEventListener('click', ()=> { closeTutorial(); });
-  startBtn.addEventListener('click', ()=> { closeTutorial(); });
-
-  // باز کردن آموزش بلافاصله (می‌تونی شرطِ دیگری هم بذاری)
-  // اگر می‌خواهی همیشه با دکمه خاص باز شود، غیرفعالش کن و فقط تابع openTutorial را از آن دکمه صدا بزن
-  openTutorial();
-
-})();
-</script>
-<!-- ===== tutorial modal end ===== -->
 
 
 
@@ -501,6 +283,7 @@ canvas {
 <div id="nameDisplay"></div>
 <div id="totalScoreDisplay"></div>
 
+
 <div id="livesContainer">
   <span id="life1" class="heart">❤️</span>
   <span id="life2" class="heart">❤️</span>
@@ -514,19 +297,20 @@ canvas {
 <div id="finalScore"></div>
 <span id="ballLabel">0</span>
 
-  <audio id="gameSound" preload="auto">
+   <audio id="gameSound" preload="auto">
     <source src="https://raw.githubusercontent.com/mohsenforghani/gamesound/refs/heads/main/SoundGamePartaab.mp3" type="audio/mp3">
     Your browser does not support the audio element.
 </audio>
-<audio id="over100" preload="auto">
-    <source src="https://raw.githubusercontent.com/mohsenforghani/gamesound/refs/heads/main/over100.mp3" type="audio/mp3">
+<audio id="over1002" preload="auto">
+    <source src="https://raw.githubusercontent.com/mohsenforghani/gamesound/refs/heads/main/over100-2.mp3" type="audio/mp3">
     Your browser does not support the audio element.
 </audio>
 
-  <audio id="scoresound" preload="auto">
+    <audio id="scoresound" preload="auto">
     <source src="https://raw.githubusercontent.com/mohsenforghani/gamesound/refs/heads/main/jiring.mp3" type="audio/mp3">
     Your browser does not support the audio element.
 </audio>
+
 
 <div id="topPlayerName" style="
     position: absolute;
@@ -607,64 +391,39 @@ canvas {
 </div>
 
 
-
-
-
-
-
-<div id="totalScoreDisplay" style="
-    position:absolute;
-    bottom:2%;        /* فاصله از پایین */
-    left:2%;          /* فاصله از چپ */
-    color: yellow;  /* شفافیت مشابه */
-    font-size:16px;     /* همان اندازه فونت */
-    font-style:italic;  /* مثل فونت ساخته شده */
-    text-shadow:0 1px 2px rgba(0,0,0,0.5); /* سایه مشابه */
-    font-family: Arial, sans-serif;
-    pointer-events:none; /* جلوگیری از کلیک */
-    z-index:10;
+<div id="windInfo" style="
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    font-weight: bold;
+    color: red;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 "></div>
 
 
-<button id="downloadBtn" style="
-    position: fixed;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    padding: 20px 0;
-    font-size: 30px;
-    font-weight: bold;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 0;
-    cursor: pointer;
-    z-index: 10000;
-    display: none;  /* ابتدا مخفی باشد */
-">دانلود فایل(Zip)</button>
+<div id="windDirection"></div> <!-- برای نمایش اطلاعات باد -->
 
 
-
-
-
-
+<button id="resetBtn">شروع مجدد</button>
 <button id="showScoresBtn">نمایش امتیازات</button>
 <canvas id="gameCanvas"></canvas>
-
+ <iframe id="stageFrame" style="width:100%; height:100%; border:none;"></iframe>
 
     
-
-
- //  <div id="newsTicker" style="
- //   position: absolute;
- //   bottom: 62px; 
- //   left: -20%; /* شروع از خارج صفحه */
-  //  white-space: nowrap;
-  //  font-size: 12px; 
- //   color: yellow; 
+  // <div id="newsTicker" style="
+  //  position: absolute;
+   // bottom: 62px; 
+  //  left: -20%; /* شروع از خارج صفحه */
+ //   white-space: nowrap;
+ //   font-size: 12px; 
+  //  color: yellow; 
  //   font-family: Arial, sans-serif;
 // -webkit-user-select: none; /* برای Safari و iOS */
-//  -moz-user-select: none;    /* برای Firefox */
+ // -moz-user-select: none;    /* برای Firefox */
 //  -ms-user-select: none;     /* برای IE */
 //  user-select: none;         /* برای مرورگرهای جدید */
 //  pointer-events: none;      /* جلوگیری از تأثیر کلیک یا درگ روی سایر دکمه‌ها */
@@ -673,7 +432,7 @@ canvas {
 
 
 
-<button id="resetBtn">شروع مجدد</button>
+
 
 <!-- دکمه دائمی کوچک -->
 <button id="resetBtnSmall" style="
@@ -714,36 +473,68 @@ const ballLabel = document.getElementById("ballLabel");
 
 
 
+
 const ctx = canvas.getContext('2d');
 
-let playerName = prompt("نام بازیکن را وارد کنید:");
-if(!playerName) playerName = "ناشناس";
-localStorage.setItem('playerName', playerName);
+let playerName = localStorage.getItem('playerName');
+
+if (!playerName) {
+  // اگر نام وجود ندارد، از بازیکن بپرس
+  playerName = prompt("نام بازیکن را وارد کنید:");
+  if (playerName && playerName.trim() !== "") {
+    localStorage.setItem('playerName', playerName); // ذخیره در localStorage
+  } else {
+    playerName = "ناشناس";
+  }
+}
+
+
+
+
 // let currentNews = "";
-let totalScore = 0;
+let totalScore = parseFloat(localStorage.getItem('totalScore')) || 0;
 let turn = 0;
 const maxTurns = 5;
 let turnScores = [];
-let lives = 3;
-  
-  let gameSound = document.getElementById('gameSound');
-let soundOver100 = document.getElementById('over100');
-  let soundscoreingame = document.getElementById('scoresound');
+let lives = parseInt(localStorage.getItem('remainingLives')) || 3;
+
+// بروزرسانی نمایش قلب‌ها
+function updateLivesDisplay() {
+    document.getElementById('life1').innerText = lives >= 1 ? '❤️' : '🖤';
+    document.getElementById('life2').innerText = lives >= 2 ? '❤️' : '🖤';
+    document.getElementById('life3').innerText = lives >= 3 ? '❤️' : '🖤';
+}
+
+updateLivesDisplay();
+
+
+let gameSound = document.getElementById('gameSound');
+let soundOver1002 = document.getElementById('over1002');
+let soundscoreingame = document.getElementById('scoresound');
 // وقتی بازی شروع می‌شود، صدا را پخش کن
 function startGame() {
     gameSound.loop = true;  // برای تکرار صدا
     gameSound.play();       // پخش صدا
+    
 }
 
-function soundradshodan100() {
-    soundOver100.play();       // پخش صدا
-  soundOver100.loop = false;  // برای تکرار صدا   
+function soundradshodan1002() {
+  soundOver1002.play();       // پخش صدا
+  soundOver1002.loop = false;  // برای تکرار صدا    
 }
-  function soundscorefunc() {
+ function soundscorefunc() {
     soundscoreingame.play();       // پخش صدا
   soundscoreingame.loop = false;  // برای تکرار صدا   
 }
+
   
+let windDirection = '';
+let windStrength = 0;
+const windDisplay = document.getElementById('windDirection');
+/*windDisplay.innerText = `باد جهت: ${windDirection} | ضریب: ${windStrength.toFixed(2)}`;*/
+
+
+
 let resizeTapCount = 0;  // شمارنده ضربه برای ریسایز
 const tapsNeeded = 20;    // تعداد ضربه لازم برای ریسایز
   
@@ -841,12 +632,6 @@ function getTouchPos(e) {
 }
 
 
-
-
-
-
-
-
 canvas.addEventListener('pointerdown', e=>{
     e.preventDefault();
 if (e.pointerType !== 'touch' ) return;
@@ -867,18 +652,36 @@ if (e.pointerType !== 'touch' ) return;
     }
 },{passive:false});
 
-canvas.addEventListener('pointerup', e=>{
-    if(!startTouch) return;
-    if(turn >= maxTurns) return;
+// اضافه کردن رویداد pointerup
+canvas.addEventListener('pointerup', e => {
+    if (!startTouch) return;
+    if (turn >= maxTurns) return;
+
     const endPos = getTouchPos(e);
     const dx = endPos.x - startTouch.x;
     const dy = endPos.y - startTouch.y;
-    ball.vx = dx*0.2;
-    ball.vy = dy*0.2;
+
+    // اعمال تاثیر باد بر سرعت توپ
+    let adjustedVx = dx * 0.2;
+    let adjustedVy = dy * 0.2;
+
+    // اعمال جهت و قدرت باد
+    if (windDirection === 'down') {
+        adjustedVy += windStrength * 5; // تاثیر بیشتر باد به سمت پایین
+    } else if (windDirection === 'up') {
+        adjustedVy -= windStrength * 5; // تاثیر بیشتر باد به سمت بالا
+    }
+
+    ball.vx = adjustedVx;
+    ball.vy = adjustedVy;
+
     isMoving = true;
     hasThrown = true;
     startTouch = null;
 });
+
+
+
 
 
 
@@ -899,11 +702,6 @@ document.getElementById('toggleChatBtn').addEventListener('click', () => {
 });
 
 
-  
-
-
-
-  
 
 document.getElementById("showScoresBtn").addEventListener("click", ()=>{
     const btn = document.getElementById("showScoresBtn");
@@ -993,6 +791,12 @@ document.getElementById("showScoresBtn").addEventListener("click", ()=>{
 });
 
 
+
+
+
+
+
+
 // Update
 function update(){
     if(isMoving){
@@ -1018,9 +822,6 @@ function update(){
     }
  updateFloats();
 }
-
-
-
 
 function calculateScore() {
     if (turn >= maxTurns) return;
@@ -1072,6 +873,7 @@ function calculateScore() {
 
  // === ذخیره نام و امتیاز بازیکن برای مرحله بعد ===
             localStorage.setItem('totalScore', totalScore.toFixed(2));
+         
             // === اجرای خودکار مرحله دوم پس از پایان نوبت‌ها ===
             setTimeout(() => {
                 // آدرس فایل HTML مرحله دوم در GitHub (raw)
@@ -1096,58 +898,59 @@ function resetBall(){
     ball.vy = 0;
     ball.color = 'white';
     ball.scored = false;
+ generateWind(); // باد جدید قبل از پرتاب
 }
 
     
-//let newsMessages = []; // آرایه نگهداری اخبار
+// let newsMessages = []; // آرایه نگهداری اخبار
 
 //async function fetchNews() {
-//    try {
-  //      const rawUrl = "https://raw.githubusercontent.com/mohsenforghani/news/refs/heads/main/news.txt?t=" + new Date().getTime();
+ //   try {
+   //     const rawUrl = "https://raw.githubusercontent.com/mohsenforghani/news/refs/heads/main/news.txt?t=" + new Date().getTime();
   //      const response = await fetch(rawUrl);
- //       if(!response.ok) throw new Error("خطا در دریافت اخبار");
-  //      const text = await response.text();
-  //      newsMessages = text.split("\n").filter(line => line.trim() !== "");
-  //  } catch (err) {
+    //    if(!response.ok) throw new Error("خطا در دریافت اخبار");
+    //    const text = await response.text();
+    //    newsMessages = text.split("\n").filter(line => line.trim() !== "");
+ //   } catch (err) {
   //      console.error("اخبار بارگذاری نشد:", err);
- //   }
+   // }
 // }
 
 // فراخوانی اولیه و سپس هر 30 ثانیه
-//fetchNews();
-//setInterval(fetchNews, 10000);
+// fetchNews();
+// setInterval(fetchNews, 10000);
 
     
     
 //function showNewsTicker(text) {
  //   let ticker = document.getElementById('newsTicker');
-  //  if(!ticker){
-   //     ticker = document.createElement('div');
-   //     ticker.id = 'newsTicker';
+ //   if(!ticker){
+ //       ticker = document.createElement('div');
+  //      ticker.id = 'newsTicker';
    //     ticker.style.position = 'absolute';
-   //     ticker.style.bottom = '62px';
+    //    ticker.style.bottom = '62px';
    //     ticker.style.whiteSpace = 'nowrap';
-    //    ticker.style.fontSize = '12px';
-    //    ticker.style.color = 'red';
-    //    ticker.style.zIndex = 1000;
-     //   document.body.appendChild(ticker);
-  //  }
-   // ticker.innerText = text;
+   //     ticker.style.fontSize = '12px';
+   //     ticker.style.color = 'red';
+   //     ticker.style.zIndex = 1000;
+   //     document.body.appendChild(ticker);
+ //   }
+ //   ticker.innerText = text;
     
     // انیمیشن عبور از چپ به راست
-   // ticker.style.transition = 'none';
- //   ticker.style.left = '-' + ticker.offsetWidth + 'px';  // شروع از بیرون سمت چپ
- //   void ticker.offsetWidth; // force reflow
+ //   ticker.style.transition = 'none';
+  //  ticker.style.left = '-' + ticker.offsetWidth + 'px';  // شروع از بیرون سمت چپ
+  //  void ticker.offsetWidth; // force reflow
  //   ticker.style.transition = 'left 15s linear';
-  //  ticker.style.left = window.innerWidth + "px";  // حرکت تا بیرون سمت راست
+//    ticker.style.left = window.innerWidth + "px";  // حرکت تا بیرون سمت راست
 
     // تکرار دوباره
   //  setTimeout(() => {
- //       ticker.style.transition = 'none';
- //       ticker.style.left = '-' + ticker.offsetWidth + 'px';  // دوباره بره چپ
+   //     ticker.style.transition = 'none';
+   //     ticker.style.left = '-' + ticker.offsetWidth + 'px';  // دوباره بره چپ
    //     void ticker.offsetWidth;
    //     ticker.style.transition = 'left 15s linear';
-  //      ticker.style.left = window.innerWidth + "px";  // دوباره حرکت کنه به راست
+   //     ticker.style.left = window.innerWidth + "px";  // دوباره حرکت کنه به راست
  //   }, 16000);  // زمان دقیق رو باید متناسب با سرعت (15s) تنظیم کنی
 // }
 
@@ -1157,15 +960,15 @@ function resetBall(){
 
 
 // setInterval(async () => {
-//    try {
- //       const response = await fetch("https://raw.githubusercontent.com/mohsenforghani/news/refs/heads/main/news.txt?t=" + new Date().getTime());
+  //  try {
+  //      const response = await fetch("https://raw.githubusercontent.com/mohsenforghani/news/refs/heads/main/news.txt?t=" + new Date().getTime());
   //      const latestNews = await response.text();
-   //     if(latestNews !== currentNews){
-   //         currentNews = latestNews;
+  //      if(latestNews !== currentNews){
+  //          currentNews = latestNews;
     //        showNewsTicker(currentNews);
-    //    }
-   // } catch(err){
-    //    console.error("خطا در دریافت news:", err);
+  //      }
+  //  } catch(err){
+   //     console.error("خطا در دریافت news:", err);
  //   }
 // }, 5000); // هر 5 ثانیه چک شود
 
@@ -1205,7 +1008,8 @@ function draw(){
     ctx.shadowColor = 'transparent';
 
    drawFloats();
-    document.getElementById('turns').innerText='Turn : '+turn+'/'+maxTurns;
+    document.getElementById('turns').innerText='Turn: '+turn+'/'+maxTurns;
+ 
 }
 
 
@@ -1216,8 +1020,25 @@ function showFinalScore(){
     document.getElementById('finalScore').innerHTML =
         'امتیاز نهایی<br>' + totalScore.toFixed(2);
     document.getElementById('finalScore').style.display = 'block';
-   document.getElementById('resetBtn').style.display = 'block';
+    document.getElementById('resetBtn').style.display = 'block';
 }
+
+
+// تابع برای تولید باد
+function generateWind() {
+    windDirection = Math.random() < 0.5 ? 'up' : 'down'; // باد به سمت بالا یا پایین
+    windStrength = parseFloat((Math.random()).toFixed(2)); // ضریب بین 0 و 1
+
+    const windDiv = document.getElementById('windInfo');
+    let arrow = windDirection === 'up' ? '↑' : '↓'; // فلش قرمز
+
+    // اضافه کردن استیکر باد قبل از فلش
+    let windSticker = '💨';  // استیکر باد
+
+    // نمایش باد به همراه استیکر و فلش
+    windDiv.innerHTML = `<span style="color:red;">${arrow}</span> <span>${windStrength.toFixed(2)}</span> <span style="font-size: 28px;">${windSticker}</span>`;
+}
+
 
 
 
@@ -1257,8 +1078,8 @@ function updateBallLabel(ball) {
     
     // نمایش فقط وقتی توپ در حال حرکت است
     ballLabel.style.display = (isMoving || hasThrown) ? 'block' : 'none';
-  if (ball.y <= 0) {
-    soundradshodan100();
+     if (ball.y <= 0) {
+    soundradshodan1002();
   }
 }
 
@@ -1299,6 +1120,13 @@ function checkInternetAtStart() {
 checkInternetAtStart();
 
 
+
+
+
+
+
+
+
 function sendScore() {
     // امتیاز نهایی با دو رقم اعشار
     let finalScore = parseFloat(totalScore).toFixed(2);
@@ -1329,10 +1157,6 @@ function sendScore() {
         }
     });
 }
-
-
-
-
 
 
 
@@ -1381,6 +1205,7 @@ document.getElementById('chatSend').addEventListener('click', () => {
 });
 
 
+
 document.getElementById('resetBtn').addEventListener('click', ()=>{
 
     // قبل از بارگذاری مرحله اول، متغیرهای بازی فعلی را ریست کن
@@ -1409,8 +1234,11 @@ document.getElementById('resetBtn').addEventListener('click', ()=>{
 });
 
 
+
+
 // دکمه کوچک همیشه فعال
 document.getElementById('resetBtnSmall').addEventListener('click', ()=> {
+  
    // قبل از بارگذاری مرحله اول، متغیرهای بازی فعلی را ریست کن
     totalScore = 0;
     turn = 0;
@@ -1418,9 +1246,9 @@ document.getElementById('resetBtnSmall').addEventListener('click', ()=> {
     ball.scored = false;
     hasThrown = false;
     floats = [];
-    resetBall();
+     resetBall();
     document.getElementById('score').innerText = '';
-    document.getElementById('turns').innerText = 'Turn : 0/' + maxTurns;
+    document.getElementById('turns').innerText = 'نوبت: 0/' + maxTurns;
     document.getElementById('finalScore').style.display = 'none';
     document.getElementById('resetBtn').style.display = 'none';
     document.getElementById('totalScoreDisplay').innerText = 'Total Score : 0';
@@ -1428,7 +1256,7 @@ document.getElementById('resetBtnSmall').addEventListener('click', ()=> {
 
   setTimeout(() => {
                 // آدرس فایل HTML مرحله دوم در GitHub (raw)
-                const stageOneURL = "https://mohsenforghani.github.io/partaab/index.html";
+                const stageOneURL = "https://mohsenforghani.github.io/Partaab/";
 
                 // هدایت کاربر به صفحه مرحله دوم در همان تب
                 window.location.href = stageOneURL;
@@ -1436,7 +1264,8 @@ document.getElementById('resetBtnSmall').addEventListener('click', ()=> {
 });
 
 
-document.getElementById('nameDisplay').innerText='Player : '+playerName;
+
+document.getElementById('nameDisplay').innerText='Player: '+playerName;
 let floats = [];
 
 
@@ -1456,6 +1285,10 @@ function spawnFloat(text, x, y) {
         baseSize: Math.max(16, Math.floor(canvas.width / 40))
     });
 }
+
+
+
+
 
 
 
@@ -1542,58 +1375,27 @@ function gameLoop(){
     updateBallLabel(ball)
     draw();
     requestAnimationFrame(gameLoop);
-    startGame()
+   startGame();
 }
 if(checkInternetAtStart()){
-
-
-const downloadBtn = document.getElementById("downloadBtn");
-
-// چک کردن اگر قبلاً دانلود شده باشد
-if(localStorage.getItem("downloaded")) {
-    downloadBtn.style.display = "none";
-} else {
-    downloadBtn.style.display = "block";
-}
-
-downloadBtn.addEventListener("click", async () => {
-    // ایجاد ZIP و اضافه کردن کل صفحه HTML
-    const zip = new JSZip();
-    zip.file("PartaabGame.html", document.documentElement.outerHTML);
-
-    const content = await zip.generateAsync({type:"blob"});
-
-    // ایجاد لینک دانلود و کلیک اتوماتیک
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(content);
-    a.download = "PartaabGame.zip";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-
-    // ذخیره وضعیت دانلود و مخفی کردن دکمه
-    localStorage.setItem("downloaded", "true");
-    downloadBtn.style.display = "none";
-});
-
-
-
-showTopPlayerName(); 
+    alert('به مرحله دوم بازی پرتاب آتشین خوش آمدید . در این مرحله جهت باد روی حرکت توپ تاثیر گذار خواهد بود. به اینصورت که جهت باد در صفحه مشخص شده و قدرتی بین 0 تا 1 خواهد داشت ');          
+    showTopPlayerName();
+    generateWind();
 document.getElementById('totalScoreDisplay').style.display = 'block';
 document.getElementById('totalScoreDisplay').innerText = 'Total Score : ' + totalScore.toFixed(2);
     gameLoop(); // ادامه بازی
 } else {
+    generateWind();
 document.getElementById('totalScoreDisplay').style.display = 'block';
 document.getElementById('totalScoreDisplay').innerText = 'Total Score : ' + totalScore.toFixed(2);
     gameLoop(); // ادامه بازی
 }
-
-
-
 
 </script>
 </body>
 </html>
+
+
 
 
 
