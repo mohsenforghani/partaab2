@@ -463,9 +463,23 @@ const ballLabel = document.getElementById("ballLabel");
 const ctx = canvas.getContext('2d');
 
 let playerName = localStorage.getItem('playerName');
-if(!playerName) playerName = "ناشناس";
+
+
+if (!playerName) {
+  // اگر نام وجود ندارد، از بازیکن بپرس
+  playerName = prompt("نام بازیکن را وارد کنید:");
+  if (playerName && playerName.trim() !== "") {
+    localStorage.setItem('playerName', playerName); // ذخیره در localStorage
+  } else {
+    playerName = "ناشناس";
+  }
+}
+
+
+
+
 // let currentNews = "";
-let totalScore = 0;
+let totalScore = parseFloat(localStorage.getItem('totalScore')) || 0;
 let turn = 0;
 const maxTurns = 5;
 let turnScores = [];
@@ -1325,5 +1339,7 @@ if(checkInternetAtStart()){
 </script>
 </body>
 </html>
+
+
 
 
