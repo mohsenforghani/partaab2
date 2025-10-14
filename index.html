@@ -13,6 +13,29 @@ body { margin:0; overflow:hidden; background:#222; touch-action:none; font-famil
 #turns {left:10px; top:2%; color: #00FF00 ; text-shadow:0 1px 2px black;}
 #nameDisplay {top:4%; left:10px; color: #00FF00; text-shadow:0 1px 2px black;}
 #totalScoreDisplay {top:6.3%; left:10px; color: #00FF00; text-shadow:0 1px 2px black;}
+
+#livesContainer {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-size: 14px;
+  display: flex;
+  gap: 2px;
+  user-select: none;
+}
+
+.heart {
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.heart.lost {
+  color: #333;
+  transform: scale(0.8);
+  filter: grayscale(100%);
+}
+
+
+
 #finalScore { 
    position: absolute;
     top: 30%;
@@ -259,6 +282,15 @@ canvas {
 
 <div id="nameDisplay"></div>
 <div id="totalScoreDisplay"></div>
+
+
+<div id="livesContainer">
+  <span id="life1" class="heart">❤️</span>
+  <span id="life2" class="heart">❤️</span>
+  <span id="life3" class="heart">❤️</span>
+</div>
+
+
 <div id="turns"></div>
 <div id="bestPlayer" style="position:absolute; left:10px; top:70px; font-size:10px; color:#FF00FF;"></div>
 <div id="score"></div>
@@ -464,7 +496,7 @@ let totalScore = parseFloat(localStorage.getItem('totalScore')) || 0;
 let turn = 0;
 const maxTurns = 5;
 let turnScores = [];
-  
+let lives = 3;  
 let gameSound = document.getElementById('gameSound');
 let soundOver1002 = document.getElementById('over1002');
 let soundscoreingame = document.getElementById('scoresound');
@@ -784,7 +816,7 @@ function calculateScore() {
     if (turn >= maxTurns) return;
 
     let score;
-    if (ball.y < 0 && lives > 0) {
+    if (ball.y < 0 && lives >= 0) {
         score = 0;
         lives--;
  
@@ -1350,6 +1382,7 @@ document.getElementById('totalScoreDisplay').innerText = 'Total Score : ' + tota
 </script>
 </body>
 </html>
+
 
 
 
