@@ -8,11 +8,11 @@
 <title>مرحله دوم بازی پرتاب آتشین </title>
 <style>
 body { margin:0; overflow:hidden; background:#222; touch-action:none; font-family:Arial,sans-serif; color:white;}
-#score,#turns,#nameDisplay,#allScoreDisplay {position:absolute; font-size:12px; z-index:10;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;pointer-events: none;}
+#score,#turns,#nameDisplay,#totalScoreDisplay {position:absolute; font-size:12px; z-index:10;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;pointer-events: none;}
 #score {left:50%; bottom:200px; transform:translateX(-50%); text-align:center;}
 #turns {left:10px; top:2%; color: #00FF00 ; text-shadow:0 1px 2px black;}
 #nameDisplay {top:4%; left:10px; color: #00FF00; text-shadow:0 1px 2px black;}
-#allScoreDisplay {top:6%; left:10px; color: #00FF00; text-shadow:0 1px 2px black;}
+#totalScoreDisplay {top:6%; left:10px; color: #00FF00; text-shadow:0 1px 2px black;}
 #finalScore {
   
     position: absolute;
@@ -259,7 +259,7 @@ canvas {
 
 
 <div id="nameDisplay"></div>
-<div id="allScoreDisplay"></div>
+<div id="totalScoreDisplay"></div>
 <div id="turns"></div>
 <div id="bestPlayer" style="position:absolute; left:10px; top:70px; font-size:10px; color:#FF00FF;"></div>
 <div id="score"></div>
@@ -293,7 +293,7 @@ canvas {
     z-index: 0;       /* پشت canvas */
     opacity: 0.6;     /* شفافیت ثابت */
 ">
-    <div id="topPlayerLabel" class="glowText">بهترین بازیکن بازی</div>
+    <div id="topPlayerLabel" class="glowText">بهترین بازیکن</div>
     <div id="topPlayerNameValue" class="glowText">🏆 ... 🏆</div>
 </div>
 
@@ -377,27 +377,6 @@ canvas {
 <div id="windDirection"></div> <!-- برای نمایش اطلاعات باد -->
 
 
-
-
-<div id="totalScoreDisplay" style="
-    position:absolute;
-    bottom:2%;        /* فاصله از پایین */
-    left:2%;          /* فاصله از چپ */
-    color: yellow;  /* شفافیت مشابه */
-    font-size:16px;     /* همان اندازه فونت */
-    font-style:italic;  /* مثل فونت ساخته شده */
-    text-shadow:0 1px 2px rgba(0,0,0,0.5); /* سایه مشابه */
-    font-family: Arial, sans-serif;
-    pointer-events:none; /* جلوگیری از کلیک */
-    z-index:10;
-"></div>
-
-
-
-
-
-
-
 <button id="resetBtn">شروع مجدد</button>
 <button id="showScoresBtn">نمایش امتیازات</button>
 <canvas id="gameCanvas"></canvas>
@@ -466,7 +445,6 @@ const ballLabel = document.getElementById("ballLabel");
 const ctx = canvas.getContext('2d');
 
 let playerName = localStorage.getItem('playerName');
-//allScoreDisplay = parseFloat(localStorage.getItem('totalScore')) || 0;
 
 if (!playerName) {
   // اگر نام وجود ندارد، از بازیکن بپرس
@@ -680,7 +658,6 @@ document.getElementById('toggleChatBtn').addEventListener('click', () => {
     }
 });
 
-document.getElementById('allScoreDisplay').innerText = "🏅 امتیاز تا اینجا: " + totalScore.toFixed(2);
 
 
 document.getElementById("showScoresBtn").addEventListener("click", ()=>{
@@ -818,7 +795,6 @@ function calculateScore(){
     turnScores.push(score);
     totalScore += score;
     soundscorefunc();
-document.getElementById('totalScoreDisplay').style.display = 'block';
 // نمایش جمع امتیاز
 document.getElementById('totalScoreDisplay').innerText = 'Total Score : ' + totalScore.toFixed(2);
 
@@ -833,7 +809,7 @@ spawnFloat(displayText, fx, fy);
     turn++;
 
     ball.scored = true;
-    document.getElementById('turns').innerText = 'نوبت: ' + turn + '/' + maxTurns;
+    document.getElementById('turns').innerText = 'Turn: ' + turn + '/' + maxTurns;
 
     setTimeout(()=>{ 
         resetBall();
@@ -968,7 +944,8 @@ function draw(){
     ctx.shadowColor = 'transparent';
 
    drawFloats();
-    document.getElementById('turns').innerText='نوبت: '+turn+'/'+maxTurns;
+    document.getElementById('turns').innerText='Turn: '+turn+'/'+maxTurns;
+ 
 }
 
 
@@ -1011,7 +988,7 @@ async function showTopPlayerName() {
 
         const div = document.getElementById("topPlayerName");
         div.innerHTML = `
-            <div class="glowText">بهترین بازیکن بازی</div>
+            <div class="glowText">بهترین بازیکن</div>
             <div class="glowText">🏆 ${topPlayer} 🏆</div>
         `;
         div.style.display = "block";
@@ -1185,7 +1162,7 @@ document.getElementById('resetBtn').addEventListener('click', ()=>{
     floats = [];
     resetBall();
     document.getElementById('score').innerText = '';
-    document.getElementById('turns').innerText = 'نوبت: 0/' + maxTurns;
+    document.getElementById('turns').innerText = 'Turn: 0/' + maxTurns;
     document.getElementById('finalScore').style.display = 'none';
     document.getElementById('resetBtn').style.display = 'none';
 document.getElementById('totalScoreDisplay').innerText = 'Total Score : 0';
@@ -1205,7 +1182,7 @@ document.getElementById('resetBtnSmall').addEventListener('click', ()=> {
     floats = [];
     resetBall();
     document.getElementById('score').innerText = '';
-    document.getElementById('turns').innerText = 'نوبت: 0/' + maxTurns;
+    document.getElementById('turns').innerText = 'Turn: 0/' + maxTurns;
     document.getElementById('finalScore').style.display = 'none';
     document.getElementById('resetBtn').style.display = 'none';
 document.getElementById('totalScoreDisplay').innerText = 'Total Score : 0';
@@ -1217,7 +1194,7 @@ document.getElementById('totalScoreDisplay').innerText = 'Total Score : 0';
 
 
 
-document.getElementById('nameDisplay').innerText='بازیکن: '+playerName;
+document.getElementById('nameDisplay').innerText='Player: '+playerName;
 let floats = [];
 
 
@@ -1333,9 +1310,13 @@ if(checkInternetAtStart()){
     alert('به مرحله دوم بازی پرتاب آتشین خوش آمدید . در این مرحله جهت باد روی حرکت توپ تاثیر گذار خواهد بود. به اینصورت که جهت باد در صفحه مشخص شده و قدرتی بین 0 تا 1 خواهد داشت ');          
     showTopPlayerName();
     generateWind();
+document.getElementById('totalScoreDisplay').style.display = 'block';
+document.getElementById('totalScoreDisplay').innerText = 'Total Score : ' + totalScore.toFixed(2);
     gameLoop(); // ادامه بازی
 } else {
     generateWind();
+document.getElementById('totalScoreDisplay').style.display = 'block';
+document.getElementById('totalScoreDisplay').innerText = 'Total Score : ' + totalScore.toFixed(2);
     gameLoop(); // ادامه بازی
 }
 
