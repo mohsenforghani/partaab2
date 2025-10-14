@@ -1151,7 +1151,7 @@ document.getElementById('resetBtn').addEventListener('click', ()=>{
     ball.scored = false;
     hasThrown = false;
     floats = [];
-     resetBall();
+    resetBall();
     document.getElementById('score').innerText = '';
     document.getElementById('turns').innerText = 'نوبت: 0/' + maxTurns;
     document.getElementById('finalScore').style.display = 'none';
@@ -1160,8 +1160,8 @@ document.getElementById('resetBtn').addEventListener('click', ()=>{
     document.getElementById('totalScoreDisplay').style.display = 'block';
 
   setTimeout(() => {
-                // آدرس فایل HTML مرحله دوم در GitHub (raw)
-                const stageOneURL = "https://mohsenforghani.github.io/partaab/";
+              
+                let stageOneURL = "https://mohsenforghani.github.io/Partaab/";
 
                 // هدایت کاربر به صفحه مرحله دوم در همان تب
                 window.location.href = stageOneURL;
@@ -1330,6 +1330,7 @@ document.getElementById('totalScoreDisplay').innerText = 'Total Score : ' + tota
 </script>
 </body>
 </html>
+
 
 
 
