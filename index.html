@@ -8,10 +8,11 @@
 <title>مرحله دوم بازی پرتاب آتشین </title>
 <style>
 body { margin:0; overflow:hidden; background:#222; touch-action:none; font-family:Arial,sans-serif; color:white;}
-#score,#turns,#nameDisplay {position:absolute; font-size:12px; z-index:10;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;pointer-events: none;}
+#score,#turns,#nameDisplay,#allScoreDisplay {position:absolute; font-size:12px; z-index:10;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;pointer-events: none;}
 #score {left:50%; bottom:200px; transform:translateX(-50%); text-align:center;}
 #turns {left:10px; top:2%; color: #00FF00 ; text-shadow:0 1px 2px black;}
 #nameDisplay {top:4%; left:10px; color: #00FF00; text-shadow:0 1px 2px black;}
+#allScoreDisplay {top:6%; left:10px; color: #00FF00; text-shadow:0 1px 2px black;}
 #finalScore {
   
     position: absolute;
@@ -258,6 +259,7 @@ canvas {
 
 
 <div id="nameDisplay"></div>
+<div id="allScoreDisplay"></div>
 <div id="turns"></div>
 <div id="bestPlayer" style="position:absolute; left:10px; top:70px; font-size:10px; color:#FF00FF;"></div>
 <div id="score"></div>
@@ -460,10 +462,11 @@ const ballLabel = document.getElementById("ballLabel");
 
 
 
+
 const ctx = canvas.getContext('2d');
 
 let playerName = localStorage.getItem('playerName');
-
+//allScoreDisplay = parseFloat(localStorage.getItem('totalScore')) || 0;
 
 if (!playerName) {
   // اگر نام وجود ندارد، از بازیکن بپرس
@@ -677,7 +680,7 @@ document.getElementById('toggleChatBtn').addEventListener('click', () => {
     }
 });
 
-
+document.getElementById('allScoreDisplay').innerText = "🏅 امتیاز تا اینجا: " + totalScore.toFixed(2);
 
 
 document.getElementById("showScoresBtn").addEventListener("click", ()=>{
