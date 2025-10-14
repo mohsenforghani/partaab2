@@ -464,7 +464,7 @@ let totalScore = parseFloat(localStorage.getItem('totalScore')) || 0;
 let turn = 0;
 const maxTurns = 5;
 let turnScores = [];
-let isGameRunning = true;  
+  
 let gameSound = document.getElementById('gameSound');
 let soundOver1002 = document.getElementById('over1002');
 let soundscoreingame = document.getElementById('scoresound');
@@ -1142,9 +1142,8 @@ document.getElementById('chatSend').addEventListener('click', () => {
 
 
 
-
 document.getElementById('resetBtn').addEventListener('click', ()=>{
-    isGameRunning = false;  // توقف مرحله دوم
+
     // قبل از بارگذاری مرحله اول، متغیرهای بازی فعلی را ریست کن
     totalScore = 0;
     turn = 0;
@@ -1160,8 +1159,14 @@ document.getElementById('resetBtn').addEventListener('click', ()=>{
     document.getElementById('totalScoreDisplay').innerText = 'Total Score : 0';
     document.getElementById('totalScoreDisplay').style.display = 'block';
 
-    // بارگذاری مرحله اول داخل iframe
-    document.getElementById('stageFrame').src = 'https://mohsenforghani.github.io/Partaab/index.html';
+  setTimeout(() => {
+                // آدرس فایل HTML مرحله دوم در GitHub (raw)
+                const stageOneURL = "https://mohsenforghani.github.io/partaab/";
+
+                // هدایت کاربر به صفحه مرحله دوم در همان تب
+                window.location.href = stageOneURL;
+            }, 1500); // کمی تأخیر برای نمایش امتیاز نهایی
+
 });
 
 
@@ -1169,15 +1174,15 @@ document.getElementById('resetBtn').addEventListener('click', ()=>{
 
 // دکمه کوچک همیشه فعال
 document.getElementById('resetBtnSmall').addEventListener('click', ()=> {
-    isGameRunning = false;  // توقف مرحله دوم
-    // قبل از بارگذاری مرحله اول، متغیرهای بازی فعلی را ریست کن
+  
+   // قبل از بارگذاری مرحله اول، متغیرهای بازی فعلی را ریست کن
     totalScore = 0;
     turn = 0;
     turnScores = [];
     ball.scored = false;
     hasThrown = false;
     floats = [];
-    resetBall();
+     resetBall();
     document.getElementById('score').innerText = '';
     document.getElementById('turns').innerText = 'نوبت: 0/' + maxTurns;
     document.getElementById('finalScore').style.display = 'none';
@@ -1185,8 +1190,13 @@ document.getElementById('resetBtnSmall').addEventListener('click', ()=> {
     document.getElementById('totalScoreDisplay').innerText = 'Total Score : 0';
     document.getElementById('totalScoreDisplay').style.display = 'block';
 
-    // بارگذاری مرحله اول داخل iframe
-    document.getElementById('stageFrame').src = 'https://mohsenforghani.github.io/Partaab/index.html';
+  setTimeout(() => {
+                // آدرس فایل HTML مرحله دوم در GitHub (raw)
+                const stageOneURL = "https://mohsenforghani.github.io/partaab/";
+
+                // هدایت کاربر به صفحه مرحله دوم در همان تب
+                window.location.href = stageOneURL;
+            }, 1500); // کمی تأخیر برای نمایش امتیاز نهایی
 });
 
 
@@ -1297,7 +1307,6 @@ function drawFloats(){
 
 // Game loop
 function gameLoop(){
-    if(!isGameRunning) return; // اگر بازی متوقف شد، حلقه اجرا نشود
     update();
     updateBallLabel(ball)
     draw();
