@@ -228,7 +228,7 @@ text-align: right; /* پیام‌ها به سمت راست تراز می‌شو�
     text-align: center;
     background-color: #f39c12;
     color: white;
-z-index:9998;   /* بالاتر از همه */
+z-index:20000;   /* بالاتر از همه */
     border: none;
 }
 canvas {
@@ -1154,19 +1154,31 @@ document.getElementById('chatSend').addEventListener('click', () => {
 
 document.getElementById('resetBtn').addEventListener('click', ()=>{
 
+    // قبل از بارگذاری مرحله اول، متغیرهای بازی فعلی را ریست کن
     totalScore = 0;
     turn = 0;
     turnScores = [];
     ball.scored = false;
     hasThrown = false;
     floats = [];
-    resetBall();
+
     document.getElementById('score').innerText = '';
-    document.getElementById('turns').innerText = 'Turn: 0/' + maxTurns;
+    document.getElementById('turns').innerText = 'نوبت: 0/' + maxTurns;
     document.getElementById('finalScore').style.display = 'none';
     document.getElementById('resetBtn').style.display = 'none';
-document.getElementById('totalScoreDisplay').innerText = 'Total Score : 0';
-    document.getElementById('totalScoreDisplay').style.display = 'none';
+    document.getElementById('totalScoreDisplay').innerText = 'Total Score : 0';
+    document.getElementById('totalScoreDisplay').style.display = 'block';
+
+    // fetch کردن کد raw مرحله اول از گیت‌هاب
+    fetch('https://raw.githubusercontent.com/mohsenforghani/Partaab/refs/heads/main/index.html')
+        .then(res => res.text())
+        .then(html => {
+            // جایگزین کردن کل محتوای صفحه با کد مرحله اول
+            document.open();
+            document.write(html);
+            document.close();
+        })
+        .catch(err => console.error('خطا در بارگذاری مرحله اول:', err));
 });
 
 
@@ -1174,19 +1186,31 @@ document.getElementById('totalScoreDisplay').innerText = 'Total Score : 0';
 
 // دکمه کوچک همیشه فعال
 document.getElementById('resetBtnSmall').addEventListener('click', ()=> {
+      // قبل از بارگذاری مرحله اول، متغیرهای بازی فعلی را ریست کن
     totalScore = 0;
     turn = 0;
     turnScores = [];
     ball.scored = false;
     hasThrown = false;
     floats = [];
-    resetBall();
+
     document.getElementById('score').innerText = '';
-    document.getElementById('turns').innerText = 'Turn: 0/' + maxTurns;
+    document.getElementById('turns').innerText = 'نوبت: 0/' + maxTurns;
     document.getElementById('finalScore').style.display = 'none';
     document.getElementById('resetBtn').style.display = 'none';
-document.getElementById('totalScoreDisplay').innerText = 'Total Score : 0';
-   document.getElementById('totalScoreDisplay').style.display = 'none';
+    document.getElementById('totalScoreDisplay').innerText = 'Total Score : 0';
+    document.getElementById('totalScoreDisplay').style.display = 'block';
+
+    // fetch کردن کد raw مرحله اول از گیت‌هاب
+    fetch('https://raw.githubusercontent.com/mohsenforghani/Partaab/refs/heads/main/index.html')
+        .then(res => res.text())
+        .then(html => {
+            // جایگزین کردن کل محتوای صفحه با کد مرحله اول
+            document.open();
+            document.write(html);
+            document.close();
+        })
+        .catch(err => console.error('خطا در بارگذاری مرحله اول:', err));
 });
 
 
