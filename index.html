@@ -12,7 +12,7 @@ body { margin:0; overflow:hidden; background:#222; touch-action:none; font-famil
 #score {left:50%; bottom:200px; transform:translateX(-50%); text-align:center;}
 #turns {left:10px; top:2%; color: #00FF00 ; text-shadow:0 1px 2px black;}
 #nameDisplay {top:4%; left:10px; color: #00FF00; text-shadow:0 1px 2px black;}
-#totalScoreDisplay {top:6%; left:10px; color: #00FF00; text-shadow:0 1px 2px black;}
+#totalScoreDisplay {top:6.3%; left:10px; color: #00FF00; text-shadow:0 1px 2px black;}
 #finalScore { 
    position: absolute;
     top: 30%;
@@ -780,44 +780,64 @@ function update(){
  updateFloats();
 }
 
-function calculateScore(){
-    if(turn >= maxTurns) return;
+function calculateScore() {
+    if (turn >= maxTurns) return;
 
     let score;
-    if(ball.y < 0){ 
+    if (ball.y < 0 && lives > 0) {
         score = 0;
-
+        lives--;
+ 
+// تغییر رنگ قلب‌ها
+        if (lives === 2) document.getElementById('life3').innerText = '🖤';
+        if (lives === 1) document.getElementById('life2').innerText = '🖤';
+        if (lives === 0) {
+            document.getElementById('life1').innerText = '🖤';
+         setTimeout(() => {   
+         alert('💀 Game Over!');
+         showFinalScore();
+         sendScore();
+               }, 1500);
+}
     } else {
-        score = (canvas.height - ball.y) / canvas.height * 100; 
+        score = (canvas.height - ball.y) / canvas.height * 100;
         score = parseFloat(score.toFixed(2));
     }
 
     turnScores.push(score);
     totalScore += score;
     soundscorefunc();
-// نمایش جمع امتیاز
-document.getElementById('totalScoreDisplay').innerText = 'Total Score : ' + totalScore.toFixed(2);
 
-// === نمایش امتیاز شناور در موقعیت توقف توپ ===
-  // جدید — نمایش با دو رقم اعشار
-const displayText = '+' + Number(score).toFixed(2);
-const fx = ball.x;
-const fy = Math.max(ball.y - ball.r - 6, 20);
-spawnFloat(displayText, fx, fy);
+    document.getElementById('totalScoreDisplay').style.display = 'block';
+    document.getElementById('totalScoreDisplay').innerText = 'Total Score : ' + totalScore.toFixed(2);
 
+    const displayText = '+' + Number(score).toFixed(2);
+    const fx = ball.x;
+    const fy = Math.max(ball.y - ball.r - 6, 20);
+    spawnFloat(displayText, fx, fy);
 
     turn++;
-
     ball.scored = true;
-    document.getElementById('turns').innerText = 'Turn: ' + turn + '/' + maxTurns;
+    document.getElementById('turns').innerText = 'Turn : ' + turn + '/' + maxTurns;
 
-    setTimeout(()=>{ 
+    setTimeout(() => {
         resetBall();
         hasThrown = false;
         ball.scored = false;
-        if(turn >= maxTurns){
-            showFinalScore();
-            sendScore();
+
+        if (turn >= maxTurns) {
+            
+
+ // === ذخیره نام و امتیاز بازیکن برای مرحله بعد ===
+            localStorage.setItem('totalScore', totalScore.toFixed(2));
+            // === اجرای خودکار مرحله دوم پس از پایان نوبت‌ها ===
+            setTimeout(() => {
+                // آدرس فایل HTML مرحله دوم در GitHub (raw)
+                const nextStageURL = "https://mohsenforghani.github.io/partaab2/";
+
+                // هدایت کاربر به صفحه مرحله دوم در همان تب
+                window.location.href = nextStageURL;
+            }, 1500); // کمی تأخیر برای نمایش امتیاز نهایی
         }
     }, 500);
 }
@@ -1330,6 +1350,7 @@ document.getElementById('totalScoreDisplay').innerText = 'Total Score : ' + tota
 </script>
 </body>
 </html>
+
 
 
 
